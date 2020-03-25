@@ -65,8 +65,14 @@ func main() {
 	err = idx.Index(ctx, uris...)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to index URIs, %v", err)
 	}
 
-	bk.Save("test.pdf")
+	outfile := "test.pdf"
+	err = bk.Save(outfile)
+
+	if err != nil {
+		log.Fatalf("Failed to save '%s', %v", outfile, err)
+	}
+	
 }

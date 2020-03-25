@@ -2,6 +2,7 @@ package pdf
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/jung-kurt/gofpdf"
 	// "github.com/rainycape/unidecode"
 	"github.com/sfomuseum/go-font-ocra"
@@ -110,10 +111,8 @@ func NewBook(opts *BookOptions) (*Book, error) {
 	}
 
 	pdf.AddFontFromBytes(font.Family, font.Style, font.JSON, font.Z)
-	pdf.SetFont(font.Family, "", 8.0)
-
-	pdf.SetTextColor(t.Colour[0], t.Colour[1], t.Colour[2])
-
+	pdf.SetFont(font.Family, "", 6.0)
+	
 	w, h, _ := pdf.PageSize(1)
 
 	page_w := w * opts.DPI
@@ -127,8 +126,10 @@ func NewBook(opts *BookOptions) (*Book, error) {
 	canvas_w := page_w - (border_left + border_right)
 	canvas_h := page_h - (border_top + border_bottom)
 
-	pdf.SetAutoPageBreak(false, border_bottom)
+	// pdf.SetAutoPageBreak(false, border_bottom)
 
+	pdf.AddPage()
+	
 	b := BookBorder{
 		Top:    border_top,
 		Bottom: border_bottom,
@@ -155,15 +156,29 @@ func NewBook(opts *BookOptions) (*Book, error) {
 		tmpfiles: tmpfiles,
 	}
 
+	
 	return &pb, nil
 }
 
 func (bk *Book) AddFeature(ctx context.Context, f geojson.Feature) error {
 
-	w := 0.0
-	h := bk.Options.Height - (bk.Border.Bottom + bk.Border.Top)
+	var stub interface{}
+	err := json.Unmarshal(f.Bytes(), &stub)
 
-	bk.PDF.Cell(w, h, string(f.Bytes()))
+	if err != nil {
+		return err
+	}
+
+	enc, err := json.Marshal(stub)
+
+	if err != nil {
+		return err
+	}
+	
+	bk.Mutex.Lock()
+	defer bk.Mutex.Unlock()
+	
+	bk.PDF.MultiCell(0, .15, string(enc), "", "", false)
 	return nil
 }
 
