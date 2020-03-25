@@ -39,6 +39,10 @@ github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/ruudk/golang-pdf417 v0.0.0-20181029194003-1af4ab5afa58/go.mod h1:6lfFZQK844Gfx8o5WFuvpxWRwnSoipWe/p622j1v06w=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200325222430-b727e154f297 h1:VCEuTVMLJB9MjyA7SLm5wS5lRwrjuk+Yx5WvQM9fJz0=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200325222430-b727e154f297/go.mod h1:jp8YY8nycFfJN0ob49a9da0zCtXsCGpSh/cXzPw8stY=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200325223307-0c4d325b04bc h1:3Nah/ex8/4crcoJYVYPwjlMiELyqyixBfgd4q5MWIZE=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200325223307-0c4d325b04bc/go.mod h1:jp8YY8nycFfJN0ob49a9da0zCtXsCGpSh/cXzPw8stY=
 github.com/sfomuseum/go-font-ocra v0.0.1 h1:r24GyccCY2B7RxPlJaxUxc5i3Se1rscZzj60SqwenL4=
 github.com/sfomuseum/go-font-ocra v0.0.1/go.mod h1:nCBaE62pXMU8W0p1MJNZgyiprc+EAhpLckJhSwsU/V4=
 github.com/shaxbee/go-spatialite v0.0.0-20180425212100-9b4c81899e0e/go.mod h1:tRDdwai9gBsMVwqexZx2+O5F9QY49MxJFo1zlI/MdkU=

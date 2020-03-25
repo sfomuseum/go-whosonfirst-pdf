@@ -6,20 +6,20 @@ import (
 	"github.com/jung-kurt/gofpdf"
 	// "github.com/rainycape/unidecode"
 	"github.com/sfomuseum/go-font-ocra"
-	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"log"
-	"os"
 	"sync"
 )
 
 type BookOptions struct {
-	Orientation string
-	Size        string
-	Width       float64
-	Height      float64
-	DPI         float64
-	Border      float64
-	Debug       bool
+	Orientation     string
+	Size            string
+	Width           float64
+	Height          float64
+	DPI             float64
+	Border          float64
+	FontSize        float64
+	Debug           bool
+	RecordSeparator string
 }
 
 type BookBorder struct {
@@ -34,35 +34,27 @@ type BookCanvas struct {
 	Height float64
 }
 
-type BookText struct {
-	Font   string
-	Style  string
-	Size   float64
-	Margin float64
-	Colour []int
-}
-
 type Book struct {
-	PDF      *gofpdf.Fpdf
-	Mutex    *sync.Mutex
-	Border   BookBorder
-	Canvas   BookCanvas
-	Text     BookText
-	Options  *BookOptions
-	pages    int
-	tmpfiles []string
+	PDF     *gofpdf.Fpdf
+	Mutex   *sync.Mutex
+	Border  BookBorder
+	Canvas  BookCanvas
+	Options *BookOptions
+	pages   int
 }
 
 func NewDefaultBookOptions() *BookOptions {
 
 	opts := &BookOptions{
-		Orientation: "P",
-		Size:        "letter",
-		Width:       0.0,
-		Height:      0.0,
-		DPI:         150.0,
-		Border:      0.01,
-		Debug:       false,
+		Orientation:     "P",
+		Size:            "letter",
+		Width:           0.0,
+		Height:          0.0,
+		DPI:             150.0,
+		Border:          0.01,
+		Debug:           false,
+		FontSize:        6.0,
+		RecordSeparator: "---",
 	}
 
 	return opts
@@ -94,16 +86,6 @@ func NewBook(opts *BookOptions) (*Book, error) {
 		pdf = gofpdf.New(opts.Orientation, "in", opts.Size, "")
 	}
 
-	t := BookText{
-		Font:   "Helvetica",
-		Style:  "",
-		Size:   8.0,
-		Margin: 0.1,
-		Colour: []int{128, 128, 128},
-	}
-
-	// pdf.SetFont(t.Font, t.Style, t.Size)
-
 	font, err := ocra.LoadFPDFFont()
 
 	if err != nil {
@@ -111,8 +93,8 @@ func NewBook(opts *BookOptions) (*Book, error) {
 	}
 
 	pdf.AddFontFromBytes(font.Family, font.Style, font.JSON, font.Z)
-	pdf.SetFont(font.Family, "", 6.0)
-	
+	pdf.SetFont(font.Family, "", opts.FontSize)
+
 	w, h, _ := pdf.PageSize(1)
 
 	page_w := w * opts.DPI
@@ -126,10 +108,8 @@ func NewBook(opts *BookOptions) (*Book, error) {
 	canvas_w := page_w - (border_left + border_right)
 	canvas_h := page_h - (border_top + border_bottom)
 
-	// pdf.SetAutoPageBreak(false, border_bottom)
-
 	pdf.AddPage()
-	
+
 	b := BookBorder{
 		Top:    border_top,
 		Bottom: border_bottom,
@@ -142,28 +122,24 @@ func NewBook(opts *BookOptions) (*Book, error) {
 		Height: canvas_h,
 	}
 
-	tmpfiles := make([]string, 0)
 	mu := new(sync.Mutex)
 
 	pb := Book{
-		PDF:      pdf,
-		Mutex:    mu,
-		Border:   b,
-		Canvas:   c,
-		Text:     t,
-		Options:  opts,
-		pages:    0,
-		tmpfiles: tmpfiles,
+		PDF:     pdf,
+		Mutex:   mu,
+		Border:  b,
+		Canvas:  c,
+		Options: opts,
+		pages:   0,
 	}
 
-	
 	return &pb, nil
 }
 
-func (bk *Book) AddFeature(ctx context.Context, f geojson.Feature) error {
+func (bk *Book) AddRecord(ctx context.Context, body []byte) error {
 
 	var stub interface{}
-	err := json.Unmarshal(f.Bytes(), &stub)
+	err := json.Unmarshal(body, &stub)
 
 	if err != nil {
 		return err
@@ -174,27 +150,16 @@ func (bk *Book) AddFeature(ctx context.Context, f geojson.Feature) error {
 	if err != nil {
 		return err
 	}
-	
+
 	bk.Mutex.Lock()
 	defer bk.Mutex.Unlock()
-	
+
 	bk.PDF.MultiCell(0, .15, string(enc), "", "", false)
+	bk.PDF.MultiCell(0, .15, bk.Options.RecordSeparator, "", "", false)
 	return nil
 }
 
 func (bk *Book) Save(path string) error {
-
-	defer func() {
-
-		for _, path := range bk.tmpfiles {
-
-			if bk.Options.Debug {
-				log.Println("REMOVE TMPFILE", path)
-			}
-
-			os.Remove(path)
-		}
-	}()
 
 	if bk.Options.Debug {
 		log.Printf("save %s\n", path)

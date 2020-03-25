@@ -7,7 +7,7 @@ import (
 import (
 	"context"
 	"flag"
-	"github.com/sfomuseum/go-whosonfirst-pdf"
+	"github.com/sfomuseum/go-archive-pdf"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
 	"github.com/whosonfirst/go-whosonfirst-index"
 	"io"
@@ -44,7 +44,7 @@ func main() {
 			return err
 		}
 
-		err = bk.AddFeature(ctx, f)
+		err = bk.AddRecord(ctx, f.Bytes())
 
 		if err != nil {
 			log.Printf("Failed to add feature for '%s', %v", path, err)
@@ -74,5 +74,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to save '%s', %v", outfile, err)
 	}
-	
+
 }

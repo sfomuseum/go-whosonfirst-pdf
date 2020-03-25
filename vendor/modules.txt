@@ -6,6 +6,8 @@ github.com/hashicorp/go-multierror
 github.com/jung-kurt/gofpdf
 # github.com/mmcloughlin/geohash v0.9.0
 github.com/mmcloughlin/geohash
+# github.com/sfomuseum/go-archive-pdf v0.0.0-20200325223307-0c4d325b04bc
+github.com/sfomuseum/go-archive-pdf
 # github.com/sfomuseum/go-font-ocra v0.0.1
 github.com/sfomuseum/go-font-ocra
 github.com/sfomuseum/go-font-ocra/fonts
