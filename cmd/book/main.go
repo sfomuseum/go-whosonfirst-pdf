@@ -68,4 +68,5 @@ func main() {
 		log.Fatal(err)
 	}
 
+	bk.Save("test.pdf")
 }

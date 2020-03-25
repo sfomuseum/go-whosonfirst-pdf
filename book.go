@@ -6,8 +6,9 @@ import (
 	// "github.com/rainycape/unidecode"
 	"github.com/sfomuseum/go-font-ocra"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"sync"
 	"log"
+	"os"
+	"sync"
 )
 
 type BookOptions struct {
@@ -159,6 +160,30 @@ func NewBook(opts *BookOptions) (*Book, error) {
 
 func (bk *Book) AddFeature(ctx context.Context, f geojson.Feature) error {
 
-	log.Println("ADD", f.Id())
+	w := 0.0
+	h := bk.Options.Height - (bk.Border.Bottom + bk.Border.Top)
+
+	bk.PDF.Cell(w, h, string(f.Bytes()))
 	return nil
+}
+
+func (bk *Book) Save(path string) error {
+
+	defer func() {
+
+		for _, path := range bk.tmpfiles {
+
+			if bk.Options.Debug {
+				log.Println("REMOVE TMPFILE", path)
+			}
+
+			os.Remove(path)
+		}
+	}()
+
+	if bk.Options.Debug {
+		log.Printf("save %s\n", path)
+	}
+
+	return bk.PDF.OutputFileAndClose(path)
 }
