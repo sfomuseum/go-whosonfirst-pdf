@@ -151,10 +151,12 @@ func (bk *Book) AddRecord(ctx context.Context, body []byte) error {
 		return err
 	}
 
+	str_body := string(enc)
+
 	bk.Mutex.Lock()
 	defer bk.Mutex.Unlock()
 
-	bk.PDF.MultiCell(0, .15, string(enc), "", "", false)
+	bk.PDF.MultiCell(0, .15, str_body, "", "left", false)
 	bk.PDF.MultiCell(0, .15, bk.Options.RecordSeparator, "", "", false)
 	return nil
 }
