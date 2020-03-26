@@ -45,6 +45,8 @@ github.com/sfomuseum/go-archive-pdf v0.0.0-20200325223307-0c4d325b04bc h1:3Nah/e
 github.com/sfomuseum/go-archive-pdf v0.0.0-20200325223307-0c4d325b04bc/go.mod h1:jp8YY8nycFfJN0ob49a9da0zCtXsCGpSh/cXzPw8stY=
 github.com/sfomuseum/go-archive-pdf v0.0.0-20200325230406-b31933ff6577 h1:143LHNYACfiKxJiT8owqlzWohFzTcNOItBQekVKO6Ls=
 github.com/sfomuseum/go-archive-pdf v0.0.0-20200325230406-b31933ff6577/go.mod h1:jp8YY8nycFfJN0ob49a9da0zCtXsCGpSh/cXzPw8stY=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200326210331-bd2c0b02e660 h1:JW22E/ZOCnBU371Wa5HECSzMhK1NUANUmxoTNXx6bAI=
+github.com/sfomuseum/go-archive-pdf v0.0.0-20200326210331-bd2c0b02e660/go.mod h1:jp8YY8nycFfJN0ob49a9da0zCtXsCGpSh/cXzPw8stY=
 github.com/sfomuseum/go-font-ocra v0.0.1 h1:r24GyccCY2B7RxPlJaxUxc5i3Se1rscZzj60SqwenL4=
 github.com/sfomuseum/go-font-ocra v0.0.1/go.mod h1:nCBaE62pXMU8W0p1MJNZgyiprc+EAhpLckJhSwsU/V4=
 github.com/shaxbee/go-spatialite v0.0.0-20180425212100-9b4c81899e0e/go.mod h1:tRDdwai9gBsMVwqexZx2+O5F9QY49MxJFo1zlI/MdkU=
