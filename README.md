@@ -86,6 +86,8 @@ Then try to parse what `tesseract` thinks that text is:
 2020/03/26 13:59:06 Failed to parse record '{"bbox": [-122.386155,37.616357,-122.386155, 37.616357], "geometry": {"coordinates": [-122.386155,37.616357],"type":"Point"},"id":1511213145,"properties":{"e"uuuu", "edtf:inception":"uuuu", "geom:area":0,"geom:bbox 122.386155, 37.616357,-122.386155,37.616357", "geom: latitude": 37.616357, "geom:longitude":-122.386155,"iso:country":"US","mz:hierarchy label":1,"mz:is_ current":-1,"sfomuseum: category": "Graphics", "sfomuseum:classification_id":3,"sfomu        seum:collection":"AviationMuseum", "sfomuseum:placetype": "category", "src:geom":"sfomuseum", "wof:belongsto": [102527513,102191575, 85633793, 85922583, 102087579, 1511214277, 1511214203,85688637],"wof:breaches":[],"wof:country":"US", "wof:geomhash":"30c8a918561c84bb2daa2b97f£c7c5353", "wof:hierarchy": [{"building_id":1511214277,"campus_id":102527513, "concourse_id":1511213145, "continent_id":102191575, "country _id":85633793,"county_id":102087579, "locality id":85922583,"neighbourhood_id":-1,"region_id":85688637, "wing_id":1511214203}],"wof:i 1511213145,"wof:lastmodified":1581718643, "wof:name":"Graphics", "wof:parent_id":1511214203,"wof:placetype":"concourse", "wof:repo":"sfomuseum-data-collection-classifications","wof:superseded_by":[],"wof:supersedes":[],"wof:tags":[]},"type Feature"}', invalid character 'u' after object key
 ```
 
+It seems like a first step is to [train Tesseract](https://tesseract-ocr.github.io/tessdoc/TrainingTesseract-4.00.html) to understand GeoJSON...
+
 ## See also
 
 * https://github.com/sfomuseum/go-archive-pdf
