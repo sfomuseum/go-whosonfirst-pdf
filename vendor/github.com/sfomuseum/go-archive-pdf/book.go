@@ -3,11 +3,11 @@ package pdf
 import (
 	"context"
 	"encoding/json"
+	"encoding/base64"
 	"github.com/jung-kurt/gofpdf"
-	// "github.com/rainycape/unidecode"
 	"github.com/sfomuseum/go-font-ocra"
 	"log"
-	"strings"
+	_ "strings"
 	"sync"
 )
 
@@ -100,7 +100,7 @@ func NewBook(opts *BookOptions) (*Book, error) {
 		pdf.SetFont(font.Family, "", opts.FontSize)
 
 	} else {
-		pdf.SetFont("Courier", "", opts.FontSize)
+		pdf.SetFont("Times", "", opts.FontSize)
 	}
 
 	w, h, _ := pdf.PageSize(1)
@@ -159,16 +159,18 @@ func (bk *Book) AddRecord(ctx context.Context, body []byte) error {
 		return err
 	}
 
-	str_body := string(enc)
-	str_body = strings.Replace(str_body, "\n", "", -1)
+	// str_body := string(enc)
+	// str_body = strings.Replace(str_body, "\n", "", -1)
 
+	enc_body := base64.StdEncoding.EncodeToString(enc)
+	
 	bk.Mutex.Lock()
 	defer bk.Mutex.Unlock()
 
 	_, lh := bk.PDF.GetFontSize()
 	lh = lh * 1.3
 
-	bk.PDF.MultiCell(0, lh, str_body, "", "left", false)
+	bk.PDF.MultiCell(0, lh, enc_body, "", "left", false)
 	bk.PDF.MultiCell(0, lh, bk.Options.RecordSeparator, "", "", false)
 	return nil
 }

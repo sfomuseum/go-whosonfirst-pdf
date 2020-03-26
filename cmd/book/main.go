@@ -23,7 +23,7 @@ func main() {
 	ctx := context.Background()
 
 	opts := pdf.NewDefaultBookOptions()
-	opts.FontSize = 12
+	// opts.FontSize = 16.0
 
 	bk, err := pdf.NewBook(opts)
 
