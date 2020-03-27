@@ -88,3 +88,4 @@ Then try to parse what `tesseract` thinks that text is:
 ## See also
 
 * https://github.com/sfomuseum/go-archive-pdf
+* https://tesseract-ocr.github.io/tessdoc/ImproveQuality
