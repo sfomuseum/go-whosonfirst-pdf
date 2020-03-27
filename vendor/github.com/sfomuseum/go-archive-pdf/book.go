@@ -52,10 +52,10 @@ func NewDefaultBookOptions() *BookOptions {
 		Size:            "letter",
 		Width:           0.0,
 		Height:          0.0,
-		DPI:             150.0,
+		DPI:             300.0,
 		Border:          0.01,
 		Debug:           false,
-		FontSize:        12.0,
+		FontSize:        8.0,
 		RecordSeparator: "RECORDSEPARATOR",
 	}
 
@@ -163,6 +163,16 @@ func (bk *Book) AddRecord(ctx context.Context, body []byte) error {
 	// str_body = strings.Replace(str_body, "\n", "", -1)
 
 	enc_body := base64.StdEncoding.EncodeToString(enc)
+
+	/*
+	chars := make([]string, len(enc_body))
+
+	for i, char := range enc_body {
+		chars[i] = string(char)
+	}
+	
+	enc_body = strings.Join(chars, " ")
+	*/
 	
 	bk.Mutex.Lock()
 	defer bk.Mutex.Unlock()

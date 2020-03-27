@@ -24,7 +24,8 @@ func main() {
 
 	opts := pdf.NewDefaultBookOptions()
 	// opts.FontSize = 16.0
-
+	// opts.OCRA = true
+	
 	bk, err := pdf.NewBook(opts)
 
 	if err != nil {

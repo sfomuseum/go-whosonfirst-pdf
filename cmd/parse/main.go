@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"flag"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
 	"io/ioutil"
@@ -39,17 +40,29 @@ func main() {
 
 			raw = strings.TrimSpace(raw)
 			raw = strings.Replace(raw, "\n", "", -1)
+			raw = strings.Replace(raw, " ", "", -1)			
 
-			if !strings.HasPrefix(raw, "{") || !strings.HasSuffix(raw, "}") {
+			// raw = strings.TrimRight(raw, "=")
+			
+			dec, err := base64.StdEncoding.DecodeString(raw)
+
+			if err != nil {
+				log.Println("B64", err, raw)
 				continue
 			}
 
-			r := strings.NewReader(raw)
+			decoded := string(dec)
+			
+			if !strings.HasPrefix(decoded, "{") || !strings.HasSuffix(decoded, "}") {
+				continue
+			}
+			
+			r := strings.NewReader(decoded)
 
 			f, err := feature.LoadGeoJSONFeatureFromReader(r)
 
 			if err != nil {
-				log.Printf("Failed to parse record '%s', %v", raw, err)
+				log.Printf("Failed to parse record '%s', %v", decoded, err)
 				continue
 			}
 
